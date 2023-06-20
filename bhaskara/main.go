@@ -12,7 +12,7 @@ import (
 
 func main() {
 	fmt.Println("==> sending trace to Oju")
-	send_trace_calculate_delta("calculating-delta")
+	go send_trace_calculate_delta("calculating-delta")
 
 	http.HandleFunc("/calculate-delta", func(writer http.ResponseWriter, request *http.Request) {
 		fmt.Println("==> executing POST to delta")

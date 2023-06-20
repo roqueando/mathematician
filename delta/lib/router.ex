@@ -7,8 +7,14 @@ defmodule Delta.Router do
   plug :dispatch
 
   post "/check-delta" do
-    result = Delta.Calculate.run(conn.body_params)
-    send_resp(conn, 200, "The result is: #{result}")
+    case Delta.Calculate.run(conn.body_params) do
+      :delta_has_no_result ->
+        conn
+        |> send_resp(400, "Delta has no result")
+      result ->
+        conn
+        |> send_resp(200, result |> to_string())
+    end
   end
 
   match _ do
